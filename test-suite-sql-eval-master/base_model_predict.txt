@@ -1,0 +1,100 @@
+SELECT count(singer_id) FROM singers	concert_singer
+SELECT Total_Singers FROM singers	concert_singer
+SELECT name,  country,  age FROM singer ORDER BY age ASC	concert_singer
+SELECT Name, Country, Age FROM singer ORDER BY Age DESC	concert_singer
+SELECT avg_age, min_age, max_age FROM singer WHERE country = 'France'	concert_singer
+SELECT avg_age, min_age, max_age FROM singer WHERE language = 'French'	concert_singer
+SELECT T1.name,  T1.release_year FROM songs AS T1 JOIN singers AS T2 ON T1.singer_id = T2.singer_id ORDER BY T1.release_year ASC LIMIT 1	concert_singer
+SELECT T1.Name,  T2.release_year FROM album AS T1 JOIN album_song AS T2 ON T1.album_id = T2.album_id JOIN singer AS T3 ON T2.singer_id = T3.singer_id WHERE T3.age  =  (SELECT MIN(age) FROM singer)	concert_singer
+SELECT DISTINCT Country FROM singer WHERE Age  >  20	concert_singer
+SELECT DISTINCT Country FROM singer WHERE age  >  20	concert_singer
+SELECT Country, count(*) FROM singers GROUP BY Country	concert_singer
+SELECT Country, count(*) FROM singers GROUP BY Country	concert_singer
+SELECT T1.song_name FROM songs AS T1 JOIN singers AS T2 ON T1.singer_id = T2.singer_id GROUP BY T1.singer_id ORDER BY T1.age DESC LIMIT 10	concert_singer
+SELECT T1.singer_name FROM songs AS T1 JOIN singers AS T2 ON T1.singer_id = T2.singer_id WHERE T2.age > 50	concert_singer
+SELECT Location,  Name FROM stadium WHERE Capacity BETWEEN  5000 AND  10000	concert_singer
+SELECT Location,  Name FROM station WHERE Capacity BETWEEN  5000 AND  10000	concert_singer
+SELECT max_capacity,  avg_capacity FROM stadium	concert_singer
+SELECT avg_capacity, max_capacity FROM stadium	concert_singer
+SELECT T1.name,  T1.capacity FROM stadium AS T1 JOIN stadium_attendance AS T2 ON T1.stadium_id = T2.stadium_id GROUP BY T1.stadium_id ORDER BY AVG(T2.attendance) DESC LIMIT 1	concert_singer
+SELECT T1.name,  T1.capacity FROM stadium AS T1 JOIN stadium_attendance AS T2 ON T1.stadium_id = T2.stadium_id GROUP BY T1.stadium_id ORDER BY AVG(T2.attendance) DESC LIMIT 1	concert_singer
+SELECT count(*) FROM concerts WHERE year IN (2014, 2015)	concert_singer
+SELECT count(*) FROM concerts AS T1 JOIN event_occurrences AS T2 ON T1.concert_id = T2.event_id WHERE YEAR(T2.event_date) IN (2014, 2015)	concert_singer
+SELECT Stadium_Name,  Count(*) FROM concerts GROUP BY Stadium_Name	concert_singer
+SELECT Stadium FROM concerts GROUP BY Stadium	concert_singer
+SELECT stadium_name, capacity FROM stadium WHERE year >= 2014	concert_singer
+SELECT T1.name,  T1.capacity FROM stadium AS T1 JOIN stadium_concerts AS T2 ON T1.stadium_id = T2.stadium_id WHERE T2.concert_date BETWEEN '2013-01-01' AND '2023-12-31' ORDER BY T1.capacity DESC LIMIT 1	concert_singer
+SELECT year FROM concerts GROUP BY year ORDER BY count DESC LIMIT 1	concert_singer
+SELECT T1.year FROM concerts AS T1 JOIN people AS T2 ON T1.person_id = T2.person_id GROUP BY T1.year ORDER BY count(*) DESC LIMIT 1	concert_singer
+SELECT Stadium_Name FROM stadium WHERE Concert_Not_Held	concert_singer
+SELECT Name FROM stadium WHERE Concert_status!= 1	concert_singer
+SELECT Country FROM country WHERE Age  >  40  AND  Age  <  30	concert_singer
+SELECT name FROM stadium WHERE not in (SELECT stadium_name FROM stadium WHERE year = 2014)	concert_singer
+SELECT T2.Name FROM stadium AS T1 JOIN stadium_concerts AS T2 ON T1.Stadium_ID  =  T2.Stadium_ID WHERE T1.Concert_date !=  '2014'	concert_singer
+SELECT T1.name AS Concert_Name, T1.theme AS Concert_Topic, COUNT(*) AS Number_of_Singers FROM concerts AS T1 JOIN concerts AS T2 ON T1.concert_id = T2.concert_id GROUP BY T1.concert_id	concert_singer
+LECT T1.name,  T1.themes,  count(*) FROM concerts AS T1 JOIN concerts_as_talks AS T2 ON T1.concert_id = T2.concert_id GROUP BY T1.concert_id	concert_singer
+SELECT singer_name, count(concerts) FROM singers GROUP BY singer_name	concert_singer
+SELECT T1.singer_name,  count(*) FROM concerts AS T2 JOIN people AS T1 ON T2.person_id  =  T1.person_id GROUP BY T1.person_id	concert_singer
+SELECT singer_name FROM concert WHERE year = 2014	concert_singer
+SELECT singers_name FROM concert WHERE year_of_concert = 2014	concert_singer
+SELECT T1.name, T1.nation FROM singers AS T1 JOIN songs AS T2 ON T1.singer_id = T2.singer_id WHERE T2.title LIKE '%Hey%'	concert_singer
+SELECT T1.name,  T1.country_of_origin FROM singers AS T1 JOIN song AS T2 ON T1.singer_id = T2.singer_id WHERE T2.title LIKE '%Hey%'	concert_singer
+SELECT T1.name,  T2.location FROM stadium AS T1 JOIN stadium_concerts AS T2 ON T1.stadium_id = T2.stadium_id WHERE T1.concert_date BETWEEN '2014-01-01' AND '2015-01-01'	concert_singer
+SELECT T1.Name,  T2.Location FROM stadium AS T1 JOIN stadium_concerts AS T2 ON T1.Stadium_ID  =  T2.Stadium_ID WHERE T1.Concert_Date  =  '2014'  AND T2.Concert_Date  =  '2015'	concert_singer
+SELECT count(*) FROM concerts WHERE capacity = (SELECT max(capacity) FROM concerts )	concert_singer
+SELECT count(*) FROM concerts WHERE capacity = (SELECT max(capacity) FROM concerts)	concert_singer
+SELECT count(*) FROM pets WHERE weight  >  10	pets_1
+SELECT count(*) FROM pets WHERE weight  >  10	pets_1
+SELECT youngest_dog_weight FROM dog	pets_1
+SELECT youngest_dog_weight FROM dogs	pets_1
+SELECT pet_type, max_weight FROM pet GROUP BY pet_type	pets_1
+SELECT max(weight), type FROM pet	pets_1
+SELECT count(*) FROM student AS T1 JOIN pet AS T2 ON T1.student_id = T2.pet_owner_id WHERE T1.age > 20	pets_1
+SELECT count(*) FROM student AS T1 JOIN pet AS T2 ON T1.student_id = T2.pet_owner_id WHERE T1.age  >  20	pets_1
+SELECT count(*) FROM pet AS pet_pets JOIN people AS pet_people ON pet_pets.pet_person_id = pet_people.person_id WHERE pet_people.female = FLOOR(STR_TO_DATE(SUBSTR(pet_people.female, 1, 1)) / 100)	pets_1
+SELECT count(*) FROM pet AS pet_pets JOIN student AS pet_students ON pet_pets.student_id = pet_students.student_id WHERE pet_students.gender = 'female'	pets_1
+SELECT DISTINCT count(*) FROM pet_type	pets_1
+SELECT count(DISTINCT pet_type) FROM pet	pets_1
+SELECT T1.first_name FROM students AS T1 JOIN pets AS T2 ON T1.student_id = T2.pet_id WHERE T2.type IN ('cat', 'dog')	pets_1
+SELECT T1.first_name FROM students AS T1 JOIN student_pets AS T2 ON T1.student_id = T2.student_id GROUP BY T1.student_id HAVING count(*) IN (1, 2)	pets_1
+SELECT T1.first_name FROM students AS T1 JOIN pets AS T2 ON T1.student_id = T2.student_id WHERE T2.type = 'cat' OR T2.type = 'dog'	pets_1
+SELECT student_first_name FROM student AS T1 JOIN pets AS T2 ON T1.student_id = T2.pet_id WHERE T1.student_id IN (SELECT pet_id FROM pets GROUP BY pet_id HAVING COUNT(*) = 2)	pets_1
+SELECT T1.major_name,  T1.age FROM students AS T1 JOIN student_pets AS T2 ON T1.student_id = T2.student_id WHERE T2.pet_type!= 'cat'	pets_1
+SELECT T1.major FROM students AS T1 JOIN student_major AS T2 ON T1.student_id = T2.student_id WHERE T1.student_id NOT IN (SELECT student_id FROM pet AS T3 WHERE pet_type!= 'cat') ORDER BY T1.age DESC	pets_1
+SELECT student_id FROM student AS T1 JOIN student_pet AS T2 ON T1.student_id = T2.student_id WHERE T2.pet_type!= 'cat'	pets_1
+SELECT student_id FROM student AS T1 JOIN student_pet AS T2 ON T1.student_id = T2.student_id NOT IN (SELECT pet_id FROM pet AS T3)	pets_1
+SELECT first_name, age FROM student WHERE pet = 'dog' AND pet!= 'cat'	pets_1
+SELECT T1.first_name FROM students AS T1 JOIN student_dogs AS T2 ON T1.student_id = T2.student_id JOIN pets AS T3 ON T2.pet_id = T3.pet_id WHERE T3.type = 'dog' AND T2 반려동물_id!= 'cat'	pets_1
+SELECT type, weight FROM pet WHERE age  =  (SELECT MIN(age) FROM pet)	pets_1
+SELECT pet_type, weight FROM animals ORDER BY age ASC LIMIT 1	pets_1
+SELECT pet_id, weight FROM pet WHERE age  >  1	pets_1
+SELECT pet_id, weight FROM pet WHERE age  >  1	pets_1
+SELECT avg_age, max_age FROM pet GROUP BY pet_type	pets_1
+SELECT pet_type,  avg_age,  max_age FROM pet GROUP BY pet_type	pets_1
+SELECT pet_type,  avg_weight FROM pet GROUP BY pet_type	pets_1
+SELECT avg_weight FROM pet_type	pets_1
+SELECT first_name,  age FROM student WHERE pet =  'yes'	pets_1
+SELECT T1.first_name,  T2.age FROM students AS T1 JOIN student_pets AS T2 ON T1.student_id = T2.student_id WHERE T2pet_id IN (SELECT pet_id FROM pets )	pets_1
+SELECT pet_id FROM student WHERE last_name = 'Smith'	pets_1
+SELECT pet_id FROM students WHERE last_name = 'Smith'	pets_1
+SELECT student_id, count(*) FROM pet GROUP BY student_id	pets_1
+LECT student_id, count(*) FROM student AS T1 JOIN pet AS T2 ON T1.student_id = T2.student_id GROUP BY T1.student_id	pets_1
+SELECT T1.first_name,  T1.gender FROM student AS T1 JOIN student AS T2 ON T1.student_id  =  T2.student_id GROUP BY T1.student_id HAVING count(*)  >  1	pets_1
+SELECT T1.first_name,  T1.gender FROM students AS T1 JOIN student_pets AS T2 ON T1.student_id = T2.student_id GROUP BY T1.student_id HAVING COUNT(*) > 1	pets_1
+SELECT last_name FROM student WHERE cat_age = 3	pets_1
+SELECT last_name FROM student WHERE cat_age = 3	pets_1
+SELECT avg(age) FROM student WHERE pet_id NOT IN (SELECT student_id FROM student_pets)	pets_1
+SELECT avg_age FROM student WHERE pet_status!= 1	pets_1
+SELECT count(continent) FROM planet	car_1
+SELECT count(continent) FROM planet	car_1
+SELECT continent_id,  continent_name,  count(*) FROM continents GROUP BY continent_id	car_1
+SELECT continent_id,  name,  count(*) FROM country GROUP BY continent_id	car_1
+SELECT count(*) FROM country	car_1
+SELECT count(*) FROM country	car_1
+SELECT T1.make_name,  T1.model_id,  count(*) FROM cars AS T1 JOIN car_makers AS T2 ON T1.make_id = T2.make_id GROUP BY T1.make_id	car_1
+SELECT T1.full_name,  T1.make_id,  T1.num_models FROM car AS T1 JOIN car_makers AS T2 ON T1.make_id = T2.make_id	car_1
+SELECT MIN(hp) FROM car	car_1
+SELECT Model FROM car WHERE Horsepower  =  (SELECT MIN(Horsepower) FROM car)	car_1
+SELECT Model FROM car WHERE weight  <  (SELECT AVG(weight) FROM car)	car_1
+SELECT Model FROM car WHERE Weight  <  avg_weight	car_1
+SELECT Maker FROM car_producer WHERE year_of_production = 1970	car_1
