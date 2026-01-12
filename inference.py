@@ -1,6 +1,6 @@
 import os 
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import numpy as np
 import random
 from datasets import load_dataset
@@ -42,9 +42,17 @@ def main(args):
     if tokenizer.pad_token is None: # pad_token 설정이 되어있지 않는 경우가 존재합니다.
         tokenizer.pad_token = tokenizer.eos_token
 
+    quantization_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.bfloat16,
+    )
+
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        device_map="auto"
+        device_map="auto",
+        quantization_config=quantization_config
     )
 
     if args.lora_path is not None and Path(args.lora_path).exists():
@@ -63,7 +71,7 @@ def main(args):
     preds = []
     golds = []
     db_ids = []
-    for idx in tqdm(range(args.test_num)):
+    for idx in tqdm(range(args.test_num), position=1):
         test_input = [
             {'role': 'system', 'content': system_prompt},
             {'role': 'user', 'content': user_prompt.format(question=test_data["question"][idx])},
@@ -89,6 +97,7 @@ def main(args):
         response = " ".join(response.split("\n")) 
         preds.append(response)
         print("예측 :", response)
+        print("--------------------------------")
     
     with open(f"./test-suite-sql-eval-master/gold.txt", "w",encoding="utf-8") as f:
         # 각 SQL 쿼리와 db_id를 탭으로 구분하여 저장
